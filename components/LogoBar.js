@@ -1,8 +1,8 @@
 import { Image, StyleSheet, View } from 'react-native';
         
-const LogoBar = () => {
+export default LogoBar = () => {
     return (
-        <View>
+        <View style={styles.logoContainer}>
              <Image source={require('../assets/images/Middle_Logo.png')} style={styles.logo} />
         </View>
     );
@@ -14,4 +14,3 @@ const styles = StyleSheet.create({
         width: 100
     }
 })
-export default LogoBar;
