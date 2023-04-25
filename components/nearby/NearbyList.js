@@ -19,7 +19,7 @@ import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating-widget";
 
-const NearbyList = ({ midpoint, category, radius }) => {
+const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
   const [nearby, setNearby] = useState([]);
   const [resultsMessage, setResultsMessage] = useState("");
 
@@ -37,7 +37,6 @@ const NearbyList = ({ midpoint, category, radius }) => {
       .then((res) => {
         console.log(res);
         setNearby(res.data.businesses);
-        //   console.log(res.data.businesses)
       })
       .catch((err) => {
         console.log("error");
@@ -60,9 +59,33 @@ const NearbyList = ({ midpoint, category, radius }) => {
     }
   }
 
+
+  const getMarkers = () => {
+    let markerPoints = [];
+    if (nearby.length > 0) {
+      nearby.forEach((place) =>
+        markerPoints.push({
+          name: place.name,
+          coords: {
+            latitude: place.coordinates.latitude,
+            longitude: place.coordinates.longitude,
+          },
+          address: `${place.location.address1}, ${place.location.city}, ${place.location.zip_code}`,
+          rating: place.rating,
+        })
+      );
+    }
+    setMarkers(markerPoints);
+    console.log(markers);
+  };
+
   useEffect(() => {
     getNearby();
   }, [midpoint]);
+
+  useEffect(() => {
+    getMarkers();
+  }, [nearby]);
 
   return (
     <View style={styles.container}>

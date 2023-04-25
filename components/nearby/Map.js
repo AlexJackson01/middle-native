@@ -4,11 +4,20 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import { GEO_API_KEY } from "@env";
 import axios from "axios";
 
-const Map = ({ inputOne, inputTwo, category, radius, midpoint, setMidpoint }) => {
+const Map = ({
+  inputOne,
+  inputTwo,
+  category,
+  radius,
+  midpoint,
+  setMidpoint,
+  markers,
+}) => {
   const [userPoints, setUserPoints] = useState("");
 
   useEffect(() => {
     getCoordinates();
+    console.log(markers);
   }, []);
 
   const getCoordinates = async () => {
@@ -53,6 +62,7 @@ const Map = ({ inputOne, inputTwo, category, radius, midpoint, setMidpoint }) =>
 
   return (
     <View>
+      {/* <Text>{markers[0].latitude}</Text> */}
       {midpoint && (
         <MapView
           style={styles.map}
@@ -97,9 +107,29 @@ const Map = ({ inputOne, inputTwo, category, radius, midpoint, setMidpoint }) =>
               </Callout>
             </Marker>
           ))}
+
+          {markers.length > 0 &&
+            markers.map((place, i) => (
+              <Marker
+                key={i}
+                coordinate={{
+                  latitude: place.coords.latitude,
+                  longitude: place.coords.longitude,
+                }}
+                pinColor="#F28773"
+                onCalloutPress={() => markerClick()}
+              >
+                <Callout style={styles.customView}>
+                  <View style={styles.calloutText}>
+                    <Text style={styles.placeName}>{place.name}</Text>
+                    <Text style={styles.placeDetails}>{place.address}</Text>
+                    <Text style={styles.placeDetails}>{place.rating}</Text>
+                  </View>
+                </Callout>
+              </Marker>
+            ))}
         </MapView>
       )}
-
     </View>
   );
 };
@@ -108,7 +138,7 @@ const styles = StyleSheet.create({
   map: {
     height: Dimensions.get("window").height - 175,
     width: Dimensions.get("window").width,
-    marginBottom: 20
+    marginBottom: 20,
   },
 });
 export default Map;

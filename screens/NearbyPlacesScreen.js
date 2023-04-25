@@ -10,21 +10,29 @@ const NearbyPlacesScreen = ({ route }) => {
   const { category, radius, inputOne, inputTwo } = route.params;
 
   const [midpoint, setMidpoint] = useState("");
+  const [markers, setMarkers] = useState([]);
 
   return (
     <LinearGradient
       colors={["#f28773", "#ef797a", "#da4f86"]}
       style={styles.linearGradient}
     >
-        <LogoBar />
-        <Map
-          inputOne={inputOne}
-          inputTwo={inputTwo}
-          midpoint={midpoint}
-          setMidpoint={setMidpoint}
-        />
+      <LogoBar />
+      <Map
+        inputOne={inputOne}
+        inputTwo={inputTwo}
+        midpoint={midpoint}
+        setMidpoint={setMidpoint}
+        markers={markers}
+      />
 
-        <NearbyList midpoint={midpoint} category={category} radius={radius} />
+      <NearbyList
+        midpoint={midpoint}
+        category={category}
+        radius={radius}
+        markers={markers}
+        setMarkers={setMarkers}
+      />
     </LinearGradient>
   );
 };
