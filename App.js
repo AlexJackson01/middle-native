@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import SearchScreen from "./screens/SearchScreen";
+import NearbyPlacesScreen from "./screens/NearbyPlacesScreen";
 
 
 export default App = () => {
@@ -16,6 +17,7 @@ export default App = () => {
       <PaperProvider>
       <Stack.Navigator initialRouteName="Search">
         <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Nearby" component={NearbyPlacesScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
       </PaperProvider>
     </NavigationContainer>

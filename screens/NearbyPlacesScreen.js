@@ -1,17 +1,23 @@
-import { StyleSheet, View } from "react-native";
-import LogoBar from "../components/LogoBar";
 import { LinearGradient } from "expo-linear-gradient";
-import SearchForm from "../components/search/SearchForm";
+import { StyleSheet, View } from "react-native";
+import Map from "../components/nearby/Map";
+import LogoBar from "../components/LogoBar";
 
-export default SearchScreen = ({ navigation }) => {
+const NearbyPlacesScreen = ({ route }) => {
+  const { midpoint, latLngOne, latLngTwo, category, radius } = route.params;
   return (
     <LinearGradient
       colors={["#f28773", "#ef797a", "#da4f86"]}
       style={styles.linearGradient}
     >
       <LogoBar />
-
-      <SearchForm navigation={navigation} />
+      <Map
+        midpoint={midpoint}
+        latLngOne={latLngOne}
+        latLngTwo={latLngTwo}
+        category={category}
+        radius={radius}
+      />
     </LinearGradient>
   );
 };
@@ -24,3 +30,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+export default NearbyPlacesScreen;
