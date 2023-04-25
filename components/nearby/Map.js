@@ -4,8 +4,7 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import { GEO_API_KEY } from "@env";
 import axios from "axios";
 
-const Map = ({ inputOne, inputTwo, category, radius }) => {
-  const [midpoint, setMidpoint] = useState("");
+const Map = ({ inputOne, inputTwo, category, radius, midpoint, setMidpoint }) => {
   const [userPoints, setUserPoints] = useState("");
 
   useEffect(() => {
@@ -107,8 +106,9 @@ const Map = ({ inputOne, inputTwo, category, radius }) => {
 
 const styles = StyleSheet.create({
   map: {
-    height: Dimensions.get("window").height - 425,
+    height: Dimensions.get("window").height - 225,
     width: Dimensions.get("window").width,
+    marginBottom: 20
   },
 });
 export default Map;

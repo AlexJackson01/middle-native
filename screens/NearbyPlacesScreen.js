@@ -2,9 +2,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, View } from "react-native";
 import Map from "../components/nearby/Map";
 import LogoBar from "../components/LogoBar";
+import { useState } from "react";
+import NearbyList from "../components/nearby/NearbyList";
 
 const NearbyPlacesScreen = ({ route }) => {
   const { category, radius, inputOne, inputTwo } = route.params;
+
+  const [midpoint, setMidpoint] = useState("");
+
   return (
     <LinearGradient
       colors={["#f28773", "#ef797a", "#da4f86"]}
@@ -12,11 +17,13 @@ const NearbyPlacesScreen = ({ route }) => {
     >
       <LogoBar />
       <Map
-        category={category}
-        radius={radius}
         inputOne={inputOne}
         inputTwo={inputTwo}
+        midpoint={midpoint}
+        setMidpoint={setMidpoint}
       />
+
+      <NearbyList midpoint={midpoint} category={category} radius={radius} />
     </LinearGradient>
   );
 };
