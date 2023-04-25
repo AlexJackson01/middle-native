@@ -4,7 +4,7 @@ import Map from "../components/nearby/Map";
 import LogoBar from "../components/LogoBar";
 
 const NearbyPlacesScreen = ({ route }) => {
-  const { midpoint, latLngOne, latLngTwo, category, radius } = route.params;
+  const { category, radius, inputOne, inputTwo } = route.params;
   return (
     <LinearGradient
       colors={["#f28773", "#ef797a", "#da4f86"]}
@@ -12,11 +12,10 @@ const NearbyPlacesScreen = ({ route }) => {
     >
       <LogoBar />
       <Map
-        midpoint={midpoint}
-        latLngOne={latLngOne}
-        latLngTwo={latLngTwo}
         category={category}
         radius={radius}
+        inputOne={inputOne}
+        inputTwo={inputTwo}
       />
     </LinearGradient>
   );

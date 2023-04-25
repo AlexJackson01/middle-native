@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button, Menu } from "react-native-paper";
-import { GEO_API_KEY } from "@env";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchForm = ({ navigation }) => {
@@ -12,11 +10,10 @@ const SearchForm = ({ navigation }) => {
   const [openRadius, setOpenRadius] = useState(false);
   const [category, setCategory] = useState("");
   const [radius, setRadius] = useState("");
+  const [userPoints, setUserPoints] = useState([]);
   const [categoryToDisplay, setCategoryToDisplay] = useState("");
   const [radiusToDisplay, setRadiusToDisplay] = useState("");
-  const [latLngOne, setLatlngOne] = useState({ latitude: "", longitude: "" });
-  const [latLngTwo, setLatlngTwo] = useState({ latitude: "", longitude: "" });
-  const [midpoint, setMidpoint] = useState({ latitude: "", longitude: "" });
+  const [midpoint, setMidpoint] = useState("");
   const [categoryMenu, setCategoryMenu] = useState([
     { name: "restaurants", label: "Restaurant" },
     { name: "pubs", label: "Pub" },
@@ -79,51 +76,6 @@ const SearchForm = ({ navigation }) => {
     setOpenRadius(false);
   };
 
-  const getCoordinates = () => {
-    try {
-      let one = `https://api.openrouteservice.org/geocode/search?api_key=${GEO_API_KEY}&text=${inputOne}`;
-      let two = `https://api.openrouteservice.org/geocode/search?api_key=${GEO_API_KEY}&text=${inputTwo}`;
-      const requestOne = axios.get(one);
-      const requestTwo = axios.get(two);
-      console.log(requestOne);
-      axios.all([requestOne, requestTwo]).then(
-        axios.spread((...responses) => {
-          const responseOne = responses[0];
-          const responseTwo = responses[1];
-          setLatlngOne({
-            latitude: responseOne.data.features[0].geometry.coordinates[1],
-            longitude: responseOne.data.features[0].geometry.coordinates[0],
-          });
-          setLatlngTwo({
-            latitude: responseTwo.data.features[0].geometry.coordinates[1],
-            longitude: responseTwo.data.features[0].geometry.coordinates[0],
-          });
-          setMidpoint({
-            latitude: (
-              (responseOne.data.features[0].geometry.coordinates[1] +
-                responseTwo.data.features[0].geometry.coordinates[1]) /
-              2
-            ).toFixed(8),
-            longitude: (
-              (responseOne.data.features[0].geometry.coordinates[0] +
-                responseTwo.data.features[0].geometry.coordinates[0]) /
-              2
-            ).toFixed(8),
-          });
-        }),
-        navigation.navigate("Nearby", {
-          midpoint: midpoint,
-          latLngOne: latLngOne,
-          latLngTwo: latLngTwo,
-          category: category,
-          radius: radius,
-        })
-      );
-    } catch (err) {
-      console.log("There has been a problem: " + err.message);
-      throw err;
-    }
-  };
 
   return (
     <View style={styles.searchContainer}>
@@ -275,7 +227,10 @@ const SearchForm = ({ navigation }) => {
           icon="map-marker"
           mode="text"
           textColor="#FF62AD"
-          onPress={() => getCoordinates()}
+          onPress={() => navigation.navigate('Nearby', {
+            inputOne: inputOne,
+            inputTwo: inputTwo
+          })}
         >
           SEARCH
         </Button>
