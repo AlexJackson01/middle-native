@@ -91,9 +91,11 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
     <View style={styles.container}>
       {/* <Text style={styles.nearbyTitle}>Nearby Places</Text> */}
 
+      {markers.length === 0 && <ActivityIndicator size="large" color="#fff" style={{marginTop: 200}} />}
+
       <View style={styles.container}>
         <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1 }}>
-          {nearby.length > 1 ?
+          {nearby.length > 1 &&
             (nearby.map((place, i) => (
               <View key={i}>
                 <Card style={styles.card}>
@@ -185,13 +187,13 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
                   </Card.Content>
                 </Card>
               </View>
-            ))) : (
-                <>
-                  <ActivityIndicator animating={true} color="#fff" />
-                </>
-            )}
+            )))}
         </ScrollView>
       </View>
+
+      {nearby.length < 1 && (
+        <ActivityIndicator size="large" />
+      )}
     </View>
   );
 };
@@ -233,6 +235,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'flex-start'
     // marginTop: 20
+  },
+  spinner: {
+    marginLeft: 50,
+    // justifyContent: 'center'
   }
 });
 export default NearbyList;

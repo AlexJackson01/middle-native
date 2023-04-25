@@ -140,5 +140,11 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     marginBottom: 20,
   },
+  placeName: {
+    textAlign: 'center'
+  },
+  placeDetails:{
+    textAlign: 'center'
+  }
 });
 export default Map;
