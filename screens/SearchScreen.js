@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import LogoBar from "../components/LogoBar";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import SearchForm from "../components/search/SearchForm";
 
 export default SearchScreen = () => {
@@ -11,16 +11,16 @@ export default SearchScreen = () => {
     >
       <LogoBar />
 
-        <SearchForm />
+      <SearchForm />
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-    linearGradient: {
-        flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+  linearGradient: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
