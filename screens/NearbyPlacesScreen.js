@@ -4,6 +4,7 @@ import Map from "../components/nearby/Map";
 import LogoBar from "../components/LogoBar";
 import { useState } from "react";
 import NearbyList from "../components/nearby/NearbyList";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NearbyPlacesScreen = ({ route }) => {
   const { category, radius, inputOne, inputTwo } = route.params;
@@ -15,15 +16,15 @@ const NearbyPlacesScreen = ({ route }) => {
       colors={["#f28773", "#ef797a", "#da4f86"]}
       style={styles.linearGradient}
     >
-      <LogoBar />
-      <Map
-        inputOne={inputOne}
-        inputTwo={inputTwo}
-        midpoint={midpoint}
-        setMidpoint={setMidpoint}
-      />
+        <LogoBar />
+        <Map
+          inputOne={inputOne}
+          inputTwo={inputTwo}
+          midpoint={midpoint}
+          setMidpoint={setMidpoint}
+        />
 
-      <NearbyList midpoint={midpoint} category={category} radius={radius} />
+        <NearbyList midpoint={midpoint} category={category} radius={radius} />
     </LinearGradient>
   );
 };

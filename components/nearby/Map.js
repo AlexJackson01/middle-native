@@ -106,7 +106,7 @@ const Map = ({ inputOne, inputTwo, category, radius, midpoint, setMidpoint }) =>
 
 const styles = StyleSheet.create({
   map: {
-    height: Dimensions.get("window").height - 150,
+    height: Dimensions.get("window").height - 50,
     width: Dimensions.get("window").width,
     marginBottom: 20
   },

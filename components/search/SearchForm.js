@@ -8,7 +8,7 @@ const SearchForm = ({ navigation }) => {
   const [inputTwo, setInputTwo] = useState("");
   const [openCategories, setOpenCategories] = useState(false);
   const [openRadius, setOpenRadius] = useState(false);
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState("");
   const [radius, setRadius] = useState("");
   const [userPoints, setUserPoints] = useState([]);
   const [categoryToDisplay, setCategoryToDisplay] = useState("");

@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import LogoBar from "../components/LogoBar";
 import { LinearGradient } from "expo-linear-gradient";
 import SearchForm from "../components/search/SearchForm";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default SearchScreen = ({ navigation }) => {
   return (
