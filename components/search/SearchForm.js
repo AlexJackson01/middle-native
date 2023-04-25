@@ -8,8 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const SearchForm = ({ navigation }) => {
   const [inputOne, setInputOne] = useState("");
   const [inputTwo, setInputTwo] = useState("");
-  const [categoriesVisible, setCategoriesVisible] = useState(false);
-  const [radiusVisible, setRadiusVisible] = useState(false);
+  const [openCategories, setOpenCategories] = useState(false);
+  const [openRadius, setOpenRadius] = useState(false);
   const [category, setCategory] = useState("");
   const [radius, setRadius] = useState("");
   const [categoryToDisplay, setCategoryToDisplay] = useState("");
@@ -17,6 +17,24 @@ const SearchForm = ({ navigation }) => {
   const [latLngOne, setLatlngOne] = useState({ latitude: "", longitude: "" });
   const [latLngTwo, setLatlngTwo] = useState({ latitude: "", longitude: "" });
   const [midpoint, setMidpoint] = useState({ latitude: "", longitude: "" });
+  const [categoryMenu, setCategoryMenu] = useState([
+    { name: "restaurants", label: "Restaurant" },
+    { name: "pubs", label: "Pub" },
+    { name: "cafes", label: "Cafe" },
+    { name: "movietheaters", label: "Cinema" },
+    { name: "danceclubs,bars", label: "Nightclub/Bar" },
+    { name: "museums,galleries", label: "Museum/Art Gallery" },
+    { name: "theater", label: "Theatre" },
+  ]);
+  const [radiusMenu, setRadiusMenu] = useState([
+    { value: 0.25 * 1609.344, name: "quarter", label: "1/4 mile" },
+    { value: 0.5 * 1609.344, name: "half", label: "1/2 mile" },
+    { value: 1 * 1609.344, name: "one", label: "1 mile" },
+    { value: 3 * 1609.344, name: "three", label: "3 miles" },
+    { value: 5 * 1609.344, name: "five", label: "5 miles" },
+    { value: 10 * 1609.344, name: "ten", label: "10 miles" },
+    { value: 20 * 1609.344, name: "twenty", label: "20 miles" },
+  ]);
 
   const saveInputOne = async (inputOne) => {
     try {
@@ -43,22 +61,22 @@ const SearchForm = ({ navigation }) => {
     setInputOne("");
     setInputTwo("");
 
-    console.log("Done.");
+    // console.log("Done.");
   };
 
   const openCategoryMenu = (e) => {
     e.preventDefault();
-    setCategoriesVisible(true);
+    setOpenCategories(true);
   };
 
   const openRadiusMenu = (e) => {
     e.preventDefault();
-    setRadiusVisible(true);
+    setOpenRadius(true);
   };
 
   const closeMenu = () => {
-    setCategoriesVisible(false);
-    setRadiusVisible(false);
+    setOpenCategories(false);
+    setOpenRadius(false);
   };
 
   const getCoordinates = () => {
@@ -153,7 +171,7 @@ const SearchForm = ({ navigation }) => {
           }}
         >
           <Menu
-            visible={categoriesVisible}
+            visible={openCategories}
             onDismiss={closeMenu}
             contentStyle={{
               backgroundColor: "#fff",
@@ -168,63 +186,18 @@ const SearchForm = ({ navigation }) => {
               </Button>
             }
           >
-            <Menu.Item
-              onPress={(e) => {
-                setCategory("restaurants");
-                setCategoryToDisplay("Restaurant");
-                closeMenu();
-              }}
-              value="restaurants"
-              title="Restaurant"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("pubs");
-                setCategoryToDisplay("Pub");
-                closeMenu();
-              }}
-              title="Pub"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("cafes");
-                setCategoryToDisplay("Cafe");
-                closeMenu();
-              }}
-              title="Cafe"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("movietheaters");
-                setCategoryToDisplay("Cinema");
-                closeMenu();
-              }}
-              title="Cinema"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("danceclubs,bars");
-                setCategoryToDisplay("Nightclub/Bar");
-                closeMenu();
-              }}
-              title="Nightclub/Bar"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("museums,galleries");
-                setCategoryToDisplay("Museum/Art Gallery");
-                closeMenu();
-              }}
-              title="Museum/Art Gallery"
-            />
-            <Menu.Item
-              onPress={() => {
-                setCategory("theater");
-                setCategoryToDisplay("Restaurant");
-                closeMenu();
-              }}
-              title="Theatre"
-            />
+            {categoryMenu.map((category, i) => (
+              <Menu.Item
+                key={i}
+                onPress={(e) => {
+                  setCategory(category.name);
+                  setCategoryToDisplay(category.label);
+                  closeMenu();
+                }}
+                value={category.name}
+                title={category.label}
+              />
+            ))}
           </Menu>
 
           {category && (
@@ -252,7 +225,7 @@ const SearchForm = ({ navigation }) => {
           }}
         >
           <Menu
-            visible={radiusVisible}
+            visible={openRadius}
             onDismiss={closeMenu}
             contentStyle={{
               backgroundColor: "#FFF",
@@ -267,68 +240,18 @@ const SearchForm = ({ navigation }) => {
               </Button>
             }
           >
-            <Menu.Item
-              onPress={(e) => {
-                setRadius(Math.round(0.25 * 1609.344));
-                setRadiusToDisplay("1/4 mile");
-                closeMenu();
-              }}
-              value="quarter"
-              title="1/4 mile"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(0.5 * 1609.344));
-                setRadiusToDisplay("1/2 mile");
-                closeMenu();
-              }}
-              value="half"
-              title="1/2 mile"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(1609.344));
-                setRadiusToDisplay("1 mile");
-                closeMenu();
-              }}
-              value="one"
-              title="1 mile"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(3 * 1609.344));
-                setRadiusToDisplay("3 miles");
-                closeMenu();
-              }}
-              value="three"
-              title="3 miles"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(5 * 1609.344));
-                setRadiusToDisplay("5 miles");
-                closeMenu();
-              }}
-              value="five"
-              title="5 miles"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(10 * 1609.344));
-                setRadiusToDisplay("10 miles");
-                closeMenu();
-              }}
-              value="ten"
-              title="10 miles"
-            />
-            <Menu.Item
-              onPress={() => {
-                setRadius(Math.round(20 * 1609.344));
-                setRadiusToDisplay("20 miles");
-                closeMenu();
-              }}
-              title="20 miles"
-            />
+            {radiusMenu.map((radius, i) => (
+              <Menu.Item
+                key={i}
+                onPress={(e) => {
+                  setRadius(radius.value);
+                  setRadiusToDisplay(radius.label);
+                  closeMenu();
+                }}
+                value={radius.name}
+                title={radius.label}
+              />
+            ))}
           </Menu>
 
           {radius && (

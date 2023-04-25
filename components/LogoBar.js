@@ -2,7 +2,7 @@ import { Image, StyleSheet, View } from 'react-native';
         
 export default LogoBar = () => {
     return (
-        <View style={styles.logoContainer}>
+        <View>
              <Image source={require('../assets/images/Middle_Logo.png')} style={styles.logo} />
         </View>
     );
