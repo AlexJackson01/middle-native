@@ -201,6 +201,9 @@ const styles = StyleSheet.create({
     elevation: 8,
     backgroundColor: "#fff",
   },
+  cardAddress: {
+    textAlign: 'center'
+  },
   icons: {
     display: 'flex',
     flexDirection: 'row',

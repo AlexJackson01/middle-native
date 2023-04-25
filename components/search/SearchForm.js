@@ -245,7 +245,14 @@ const styles = StyleSheet.create({
   searchContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height - 150,
+    height: Dimensions.get("window").height - 250,
+    marginBottom: 100,
+    shadowColor: "black",
+    shadowOpacity: 1,
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 10,
+    elevation: 8,
+    backgroundColor: "#fff",
   },
   searchInput: {
     margin: 20,
