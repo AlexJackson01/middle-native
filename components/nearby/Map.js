@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { GEO_API_KEY, MAPS_API_KEY } from "@env";
@@ -16,17 +16,12 @@ const Map = ({
   navigation
 }) => {
   const [userPoints, setUserPoints] = useState("");
-  const [origin, setOrigin] = useState({
-    latitude: 51.5245272,
-    longitude: -0.1895569,
-  });
-  const [destination, setDestination] = useState({
-    latitude: 51.5191963,
-    longitude: -0.1194088,
-  });
+  const [origin, setOrigin] = useState(null);
+  const [destination, setDestination] = useState(null);
   const [directions, setDirections] = useState([]);
   const [mode, setMode] = useState("");
   const [duration, setDuration] = useState('')
+  const [showMode, setShowMode] = useState(false)
 
   useEffect(() => {
     getCoordinates();
@@ -73,7 +68,12 @@ const Map = ({
     setMarkerIndex(i);
   };
 
-  const showDirections = () => {
+  const handleDestination = (place) => {
+    setDestination({
+      latitude: place.coords.latitude,
+      longitude: place.coords.longitude
+    })
+    setShowMode(true)
     console.log(directions);
   };
 
@@ -116,22 +116,17 @@ const Map = ({
                 }}
                 pinColor="#E24491"
                 description={`Point ${point.number}`}
-                onCalloutPress={() => markerClick()}
+                onCalloutPress={() => setOrigin({
+                  latitude: point.latitude,
+                  longitude: point.longitude
+                })}
               >
                 <Callout style={styles.customView}>
                   <View style={styles.calloutText}>
                     <Text>This is point {point.number}</Text>
-                    {/* <Button
-                    mode="contained"
-                    onPress={() =>
-                      setOrigin({
-                        latitude: point.latitude,
-                        longitude: point.longitude,
-                      })
-                    }
-                  >
-                    Set as origin
-                  </Button> */}
+                    <TouchableOpacity>
+                      <Text style={{textDecorationLine: 'underline', textAlign: 'center'}}>Set as origin</Text>
+                    </TouchableOpacity>
                   </View>
                 </Callout>
               </Marker>
@@ -147,33 +142,26 @@ const Map = ({
                   }}
                   pinColor="#F28773"
                   onPress={() => markerIndex(place, i)}
+                  onCalloutPress={() => handleDestination(place)}
                 >
                   <Callout style={styles.customView}>
                     <View style={styles.calloutText}>
                       <Text style={styles.placeName}>{place.name}</Text>
                       <Text style={styles.placeDetails}>{place.address}</Text>
                       <Text style={styles.placeDetails}>{place.rating}</Text>
-                      {/* <Button
-                    mode="contained"
-                    onPress={() =>
-                      setDestination({
-                        latitude: place.coords.latitude,
-                        longitude: place.coords.longitude,
-                      })
-                    }
-                  >
-                    Set as origin
-                  </Button> */}
+                      <TouchableOpacity>
+                      <Text style={{textDecorationLine: 'underline', textAlign: 'center'}}>Set as destination</Text>
+                    </TouchableOpacity>
                     </View>
                   </Callout>
                 </Marker>
               ))}
 
-            <MapViewDirections
+            {destination && <MapViewDirections
               origin={origin}
               destination={destination}
               apikey={MAPS_API_KEY}
-              mode='TRANSIT'
+              mode={mode ? mode : 'TRANSIT'}
               strokeWidth={3}
               strokeColor="#E24491"
               tappable={true}
@@ -189,10 +177,12 @@ const Map = ({
                 directions: directions,
                 duration: duration
               })}
-            />
+            />}
           </MapView>
 
-          {/* <SegmentedButtons
+          <Text>{origin && origin.latitude}</Text>
+
+          {showMode && <SegmentedButtons
             value={mode}
             onValueChange={setMode}
             style={styles.modeButtons}
@@ -216,7 +206,7 @@ const Map = ({
               },
               { value: "DRIVING", label: "Driving", icon: 'car', checkedColor: '#E24491', backgroundColor: '#fff', color: '#fff', uncheckedColor: '#000' },
             ]}
-          /> */}
+          />}
         </>
       )}
     </View>
@@ -241,5 +231,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: -70,
   },
+  customView: {
+    marginBottom: 10,
+    height: 100,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  calloutText: {
+    textAlign: 'center',
+    fontSize: 20
+  },
+  originButton: {
+    borderColor: '#fff',
+    height: 10
+  }
 });
 export default Map;
