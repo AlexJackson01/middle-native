@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { GEO_API_KEY } from "@env";
+import MapViewDirections from "react-native-maps-directions";
+import { GEO_API_KEY, MAPS_API_KEY } from "@env";
 import axios from "axios";
+import { Button, SegmentedButtons } from "react-native-paper";
 
 const Map = ({
   inputOne,
@@ -10,13 +12,24 @@ const Map = ({
   midpoint,
   setMidpoint,
   markers,
-  setMarkerIndex
+  setMarkerIndex,
+  navigation
 }) => {
   const [userPoints, setUserPoints] = useState("");
+  const [origin, setOrigin] = useState({
+    latitude: 51.5245272,
+    longitude: -0.1895569,
+  });
+  const [destination, setDestination] = useState({
+    latitude: 51.5191963,
+    longitude: -0.1194088,
+  });
+  const [directions, setDirections] = useState([]);
+  const [mode, setMode] = useState("");
+  const [duration, setDuration] = useState('')
 
   useEffect(() => {
     getCoordinates();
-    console.log(markers);
   }, []);
 
   const getCoordinates = async () => {
@@ -28,9 +41,6 @@ const Map = ({
         `https://api.openrouteservice.org/geocode/search?api_key=${GEO_API_KEY}&text=${inputTwo}`
       ),
     ]);
-
-    // console.log(requestOne)
-    console.log(GEO_API_KEY);
 
     setUserPoints([
       {
@@ -61,77 +71,153 @@ const Map = ({
 
   const markerIndex = (place, i) => {
     setMarkerIndex(i);
-  }
+  };
+
+  const showDirections = () => {
+    console.log(directions);
+  };
 
   return (
     <View>
       {/* <Text>{markers[0].latitude}</Text> */}
       {midpoint && (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: Number(midpoint.latitude),
-            longitude: Number(midpoint.longitude),
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker
-            coordinate={{
+        <>
+          <MapView
+            style={styles.map}
+            initialRegion={{
               latitude: Number(midpoint.latitude),
               longitude: Number(midpoint.longitude),
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
             }}
-            pinColor="#E24491"
-            description="Point 1"
-            onCalloutPress={() => markerClick()}
           >
-            <Callout style={styles.customView}>
-              <View style={styles.calloutText}>
-                <Text>This is your midpoint</Text>
-              </View>
-            </Callout>
-          </Marker>
-
-          {userPoints.map((point, i) => (
             <Marker
-              key={i}
               coordinate={{
-                latitude: Number(point.latitude),
-                longitude: Number(point.longitude),
+                latitude: Number(midpoint.latitude),
+                longitude: Number(midpoint.longitude),
               }}
               pinColor="#E24491"
-              description={`Point ${point.number}`}
+              description="Point 1"
               onCalloutPress={() => markerClick()}
             >
               <Callout style={styles.customView}>
                 <View style={styles.calloutText}>
-                  <Text>This is point {point.number}</Text>
+                  <Text>This is your midpoint</Text>
                 </View>
               </Callout>
             </Marker>
-          ))}
 
-          {markers.length > 0 &&
-            markers.map((place, i) => (
+            {userPoints.map((point, i) => (
               <Marker
                 key={i}
                 coordinate={{
-                  latitude: place.coords.latitude,
-                  longitude: place.coords.longitude,
+                  latitude: Number(point.latitude),
+                  longitude: Number(point.longitude),
                 }}
-                pinColor="#F28773"
-                onPress={() => markerIndex(place, i)}
+                pinColor="#E24491"
+                description={`Point ${point.number}`}
+                onCalloutPress={() => markerClick()}
               >
                 <Callout style={styles.customView}>
                   <View style={styles.calloutText}>
-                    <Text style={styles.placeName}>{place.name}</Text>
-                    <Text style={styles.placeDetails}>{place.address}</Text>
-                    <Text style={styles.placeDetails}>{place.rating}</Text>
+                    <Text>This is point {point.number}</Text>
+                    {/* <Button
+                    mode="contained"
+                    onPress={() =>
+                      setOrigin({
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                      })
+                    }
+                  >
+                    Set as origin
+                  </Button> */}
                   </View>
                 </Callout>
               </Marker>
             ))}
-        </MapView>
+
+            {markers.length > 0 &&
+              markers.map((place, i) => (
+                <Marker
+                  key={i}
+                  coordinate={{
+                    latitude: place.coords.latitude,
+                    longitude: place.coords.longitude,
+                  }}
+                  pinColor="#F28773"
+                  onPress={() => markerIndex(place, i)}
+                >
+                  <Callout style={styles.customView}>
+                    <View style={styles.calloutText}>
+                      <Text style={styles.placeName}>{place.name}</Text>
+                      <Text style={styles.placeDetails}>{place.address}</Text>
+                      <Text style={styles.placeDetails}>{place.rating}</Text>
+                      {/* <Button
+                    mode="contained"
+                    onPress={() =>
+                      setDestination({
+                        latitude: place.coords.latitude,
+                        longitude: place.coords.longitude,
+                      })
+                    }
+                  >
+                    Set as origin
+                  </Button> */}
+                    </View>
+                  </Callout>
+                </Marker>
+              ))}
+
+            <MapViewDirections
+              origin={origin}
+              destination={destination}
+              apikey={MAPS_API_KEY}
+              mode='TRANSIT'
+              strokeWidth={3}
+              strokeColor="#E24491"
+              tappable={true}
+              resetOnChange={true}
+              optimizeWaypoints={true}
+              onReady={(result) => {
+                console.log(`Maps here: ${result.distance} km`);
+                console.log(`Duration: ${result.duration} min.`);
+                setDirections(result.legs[0].steps);
+                setDuration(result.duration)
+              }}
+              onPress={() => navigation.navigate('Directions', {
+                directions: directions,
+                duration: duration
+              })}
+            />
+          </MapView>
+
+          {/* <SegmentedButtons
+            value={mode}
+            onValueChange={setMode}
+            style={styles.modeButtons}
+            backgroundColor='#fff'
+            uncheckedColor='#fff'
+            checkedColor='#f28773'
+            buttons={[
+              {
+                value: "WALKING",
+                label: "Walking",
+                icon: 'walk',
+                checkedColor: '#E24491',
+                uncheckedColor: '#000'
+              },
+              {
+                value: "TRANSIT",
+                label: "Transit",
+                icon: 'train-variant',
+                checkedColor: '#E24491',
+                uncheckedColor: '#000'
+              },
+              { value: "DRIVING", label: "Driving", icon: 'car', checkedColor: '#E24491', backgroundColor: '#fff', color: '#fff', uncheckedColor: '#000' },
+            ]}
+          /> */}
+        </>
       )}
     </View>
   );
@@ -144,10 +230,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   placeName: {
-    textAlign: 'center'
+    textAlign: "center",
   },
-  placeDetails:{
-    textAlign: 'center'
-  }
+  placeDetails: {
+    textAlign: "center",
+  },
+  modeButtons: {
+    color: '#fff',
+    borderColor: '#fff',
+    backgroundColor: '#fff',
+    marginTop: -70,
+  },
 });
 export default Map;

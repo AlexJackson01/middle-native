@@ -47,14 +47,11 @@ const NearbyList = ({
         }
       )
       .then((res) => {
-        console.log(res);
         setNearby(res.data.businesses);
       })
       .catch((err) => {
         console.log("error");
       });
-
-    console.log(nearby);
 
     if (nearby.length === 0) {
       setResultsMessage("No results found. Please widen your search.");
@@ -77,8 +74,6 @@ const NearbyList = ({
       const calendars = await Calendar.getCalendarsAsync(
         Calendar.EntityTypes.EVENT
       );
-      console.log("Here are all your calendars:");
-      console.log({ calendars });
     }
 
     const eventDetails = {
@@ -111,7 +106,7 @@ const NearbyList = ({
       );
     }
     setMarkers(markerPoints);
-    console.log(markers);
+
   };
 
   useEffect(() => {
@@ -276,7 +271,7 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 5,
-    marginTop: 20,
+    marginTop: 40,
     width: 350,
     height: 230,
     marginBottom: 20,
