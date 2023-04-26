@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating-widget";
+import * as Calendar from "expo-calendar";
 
 const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigation }) => {
   const [nearby, setNearby] = useState([]);
@@ -54,6 +55,30 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigatio
       alert(error.message)
     }
   }
+
+  const addToCalendar = async (place) => {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status === "granted") {
+      const calendars = await Calendar.getCalendarsAsync(
+        Calendar.EntityTypes.EVENT
+      );
+      console.log("Here are all your calendars:");
+      console.log({ calendars });
+    }
+
+    const eventDetails = {
+      title: "Meet in the Middle",
+      location: `${place.name}, ${place.location.address1}, ${place.location.city}, ${place.location.zip_code}`,
+      startDate: new Date(),
+      endDate: new Date(),
+    };
+
+    const eventIdInCalendar = await Calendar.createEventAsync(
+      "1",
+      eventDetails
+    );
+    Calendar.openEventInCalendar(eventIdInCalendar);
+  };
 
 
   const getMarkers = () => {
@@ -173,7 +198,7 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigatio
                         </Button>
                       </TouchableOpacity>
                       <TouchableOpacity>
-                        <Button textColor="white">
+                        <Button textColor="white" onPress={() => addToCalendar(place)}>
                           <Ionicons
                             name="calendar-outline"
                             size={22}
