@@ -6,7 +6,7 @@ import { useState } from "react";
 import NearbyList from "../components/nearby/NearbyList";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const NearbyPlacesScreen = ({ route }) => {
+const NearbyPlacesScreen = ({ route, navigation }) => {
   const { category, radius, inputOne, inputTwo } = route.params;
 
   const [midpoint, setMidpoint] = useState("");
@@ -32,6 +32,7 @@ const NearbyPlacesScreen = ({ route }) => {
         radius={radius}
         markers={markers}
         setMarkers={setMarkers}
+        navigation={navigation}
       />
     </LinearGradient>
   );

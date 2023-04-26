@@ -143,7 +143,7 @@ const SearchForm = ({ navigation }) => {
                 key={i}
                 onPress={(e) => {
                   setCategory(category.name);
-                  setCategoryToDisplay(category.label);
+                  setCategoryToDisplay(category.name);
                   closeMenu();
                 }}
                 value={category.name}
@@ -168,7 +168,7 @@ const SearchForm = ({ navigation }) => {
           )}
         </View>
 
-        <View
+        {/* <View
           style={{
             paddingTop: 30,
             flexDirection: "column",
@@ -218,7 +218,7 @@ const SearchForm = ({ navigation }) => {
               </Button>
             </View>
           )}
-        </View>
+        </View> */}
       </View>
 
       <View style={{ paddingTop: 30 }}>

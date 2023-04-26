@@ -60,6 +60,10 @@ const Map = ({
     });
   };
 
+  const markerIndex = (place, i) => {
+    console.log(i);
+  }
+
   return (
     <View>
       {/* <Text>{markers[0].latitude}</Text> */}
@@ -117,7 +121,7 @@ const Map = ({
                   longitude: place.coords.longitude,
                 }}
                 pinColor="#F28773"
-                onCalloutPress={() => markerClick()}
+                onPress={() => markerIndex(place, i)}
               >
                 <Callout style={styles.customView}>
                   <View style={styles.calloutText}>

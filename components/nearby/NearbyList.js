@@ -19,19 +19,15 @@ import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating-widget";
 
-const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
+const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigation }) => {
   const [nearby, setNearby] = useState([]);
   const [resultsMessage, setResultsMessage] = useState("");
 
   const getNearby = () => {
     axios
-      .get(`https://api.yelp.com/v3/businesses/search`, {
+      .get(`https://api.yelp.com/v3/businesses/search?latitude=${midpoint.latitude}&longitude=${midpoint.longitude}&categories=${category}`, {
         headers: {
           Authorization: `Bearer ${YELP_API_KEY}`,
-        },
-        params: {
-          latitude: midpoint.latitude,
-          longitude: midpoint.longitude,
         },
       })
       .then((res) => {
@@ -91,7 +87,7 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
     <View style={styles.container}>
       {/* <Text style={styles.nearbyTitle}>Nearby Places</Text> */}
 
-      {markers.length === 0 && <ActivityIndicator size="large" color="#fff" style={{marginTop: 200}} />}
+      {markers.length === 0 && <Text>{radius}</Text>}
 
       <View style={styles.container}>
         <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1 }}>
@@ -111,7 +107,9 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers }) => {
                         // marginTop: 10,
                       }}
                     >
-                      <Button textColor="#FF62AD" onPress={() => viewMore(place)}>
+                      <Button textColor="#FF62AD" onPress={() => navigation.navigate('Place', {
+                        place: place
+                      })}>
                         View
                       </Button>
                     </TouchableOpacity>

@@ -6,6 +6,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 
 import SearchScreen from "./screens/SearchScreen";
 import NearbyPlacesScreen from "./screens/NearbyPlacesScreen";
+import PlaceScreen from "./screens/PlaceScreen";
 
 
 export default App = () => {
@@ -18,6 +19,7 @@ export default App = () => {
       <Stack.Navigator initialRouteName="Search">
         <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Nearby" component={NearbyPlacesScreen} options={{ headerTitle: "Nearby Places", headerStyle: {backgroundColor: '#f28773'}, headerTintColor: '#fff', headerBackVisible: false, headerTitleAlign: 'center'}} />
+        <Stack.Screen name="Place" component={PlaceScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
       </PaperProvider>
     </NavigationContainer>
