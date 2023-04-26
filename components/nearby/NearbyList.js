@@ -25,7 +25,7 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigatio
 
   const getNearby = () => {
     axios
-      .get(`https://api.yelp.com/v3/businesses/search?latitude=${midpoint.latitude}&longitude=${midpoint.longitude}&categories=${category}`, {
+      .get(`https://api.yelp.com/v3/businesses/search?latitude=${midpoint.latitude}&longitude=${midpoint.longitude}&categories=${category}&radius=${radius}`, {
         headers: {
           Authorization: `Bearer ${YELP_API_KEY}`,
         },
@@ -87,7 +87,7 @@ const NearbyList = ({ midpoint, category, radius, setMarkers, markers, navigatio
     <View style={styles.container}>
       {/* <Text style={styles.nearbyTitle}>Nearby Places</Text> */}
 
-      {markers.length === 0 && <Text>{radius}</Text>}
+      {markers.length === 0 && <ActivityIndicator style={styles.spinner} animating={true} color="#fff" size="large" />}
 
       <View style={styles.container}>
         <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1 }}>
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     // marginTop: 20
   },
   spinner: {
-    marginLeft: 50,
+    marginTop: 200,
     // justifyContent: 'center'
   }
 });

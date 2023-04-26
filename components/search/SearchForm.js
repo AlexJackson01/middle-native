@@ -24,13 +24,13 @@ const SearchForm = ({ navigation }) => {
     { name: "theater", label: "Theatre" },
   ]);
   const [radiusMenu, setRadiusMenu] = useState([
-    { value: 0.25 * 1609.344, name: "quarter", label: "1/4 mile" },
-    { value: 0.5 * 1609.344, name: "half", label: "1/2 mile" },
-    { value: 1 * 1609.344, name: "one", label: "1 mile" },
-    { value: 3 * 1609.344, name: "three", label: "3 miles" },
-    { value: 5 * 1609.344, name: "five", label: "5 miles" },
-    { value: 10 * 1609.344, name: "ten", label: "10 miles" },
-    { value: 20 * 1609.344, name: "twenty", label: "20 miles" },
+    { value: Math.round(0.25 * 1609.344), name: "quarter", label: "1/4 mile" },
+    { value: Math.round(0.5 * 1609.344), name: "half", label: "1/2 mile" },
+    { value: Math.round(1 * 1609.344), name: "one", label: "1 mile" },
+    { value: Math.round(3 * 1609.344), name: "three", label: "3 miles" },
+    { value: Math.round(5 * 1609.344), name: "five", label: "5 miles" },
+    { value: Math.round(10 * 1609.344), name: "ten", label: "10 miles" },
+    { value: Math.round(20 * 1609.344), name: "twenty", label: "20 miles" },
   ]);
 
   const saveInputOne = async (inputOne) => {
@@ -168,7 +168,7 @@ const SearchForm = ({ navigation }) => {
           )}
         </View>
 
-        {/* <View
+        <View
           style={{
             paddingTop: 30,
             flexDirection: "column",
@@ -218,7 +218,7 @@ const SearchForm = ({ navigation }) => {
               </Button>
             </View>
           )}
-        </View> */}
+        </View>
       </View>
 
       <View style={{ paddingTop: 30 }}>
