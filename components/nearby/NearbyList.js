@@ -39,7 +39,7 @@ const NearbyList = ({
   const getNearby = () => {
     axios
       .get(
-        `https://api.yelp.com/v3/businesses/search?latitude=${midpoint.latitude}&longitude=${midpoint.longitude}&categories=${category}&radius=${radius}`,
+        `https://api.yelp.com/v3/businesses/search?latitude=${midpoint.latitude}&longitude=${midpoint.longitude}&categories=${category}&radius=${radius}&limit=20`,
         {
           headers: {
             Authorization: `Bearer ${YELP_API_KEY}`,
@@ -249,6 +249,7 @@ const NearbyList = ({
         <FlatList
           ref={ref}
           data={nearby}
+          initialNumToRender={20}
           renderItem={(item) => renderNearby(item)}
           horizontal={true}
           contentContainerStyle={{ flexGrow: 1 }}

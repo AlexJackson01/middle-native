@@ -99,7 +99,7 @@ const Map = ({
                 latitude: Number(point.latitude),
                 longitude: Number(point.longitude),
               }}
-              pinColor="#F28773"
+              pinColor="#E24491"
               description={`Point ${point.number}`}
               onCalloutPress={() => markerClick()}
             >

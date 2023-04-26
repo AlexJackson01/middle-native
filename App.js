@@ -19,7 +19,7 @@ export default App = () => {
       <Stack.Navigator initialRouteName="Search">
         <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Nearby" component={NearbyPlacesScreen} options={{ headerTitle: "Nearby Places", headerStyle: {backgroundColor: '#f28773'}, headerTintColor: '#fff', headerBackVisible: false, headerTitleAlign: 'center'}} />
-        <Stack.Screen name="Place" component={PlaceScreen} options={{ headerTitle: '', headerStyle: {backgroundColor: '#f28773'}}} />
+        <Stack.Screen name="Place" component={PlaceScreen} options={{ headerTitle: '', headerStyle: {backgroundColor: '#f28773'}, headerTintColor: '#fff'}} />
       </Stack.Navigator>
       </PaperProvider>
     </NavigationContainer>
