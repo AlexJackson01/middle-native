@@ -11,6 +11,7 @@ const NearbyPlacesScreen = ({ route, navigation }) => {
 
   const [midpoint, setMidpoint] = useState("");
   const [markers, setMarkers] = useState([]);
+  const [markerIndex, setMarkerIndex] = useState(0)
 
   return (
     <LinearGradient
@@ -24,6 +25,7 @@ const NearbyPlacesScreen = ({ route, navigation }) => {
         midpoint={midpoint}
         setMidpoint={setMidpoint}
         markers={markers}
+        setMarkerIndex={setMarkerIndex}
       />
 
       <NearbyList
@@ -33,6 +35,7 @@ const NearbyPlacesScreen = ({ route, navigation }) => {
         markers={markers}
         setMarkers={setMarkers}
         navigation={navigation}
+        markerIndex={markerIndex}
       />
     </LinearGradient>
   );

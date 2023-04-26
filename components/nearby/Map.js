@@ -7,11 +7,10 @@ import axios from "axios";
 const Map = ({
   inputOne,
   inputTwo,
-  category,
-  radius,
   midpoint,
   setMidpoint,
   markers,
+  setMarkerIndex
 }) => {
   const [userPoints, setUserPoints] = useState("");
 
@@ -61,7 +60,7 @@ const Map = ({
   };
 
   const markerIndex = (place, i) => {
-    console.log(i);
+    setMarkerIndex(i);
   }
 
   return (
