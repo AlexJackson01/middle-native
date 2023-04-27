@@ -19,11 +19,11 @@ const DirectionsScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    linearGradient: {
-      flex: 1,
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
+  linearGradient: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 export default DirectionsScreen;

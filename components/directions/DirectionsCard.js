@@ -8,26 +8,29 @@ const DirectionsCard = ({ directions, duration }) => {
   useEffect(() => {
     console.log(directions);
 
-    let steps = []
+    let steps = [];
 
     for (let step of directions) {
-        const stripped = step.html_instructions.replace(/(<([^>]+)>)/gi, "");
-        steps.push(stripped)
+      const stripped = step.html_instructions.replace(/(<([^>]+)>)/gi, "");
+      steps.push(stripped);
     }
-    setHTMLDirections(steps)
-    console.log(HTMLDirections)
+    setHTMLDirections(steps);
+    console.log(HTMLDirections);
   }, []);
 
   return (
     <View style={styles.container}>
-        <Text style={styles.duration}>Total: {Math.round(duration)} mins</Text>
-        <ScrollView>
-          {HTMLDirections && HTMLDirections.map((step, i) => (
+      <Text style={styles.duration}>Total: {Math.round(duration)} mins</Text>
+      <ScrollView>
+        {HTMLDirections &&
+          HTMLDirections.map((step, i) => (
             <View key={i} style={styles.steps}>
-                <Text style={styles.steps}>{i + 1}: {step}</Text>
+              <Text style={styles.steps}>
+                {i + 1}: {step}
+              </Text>
             </View>
           ))}
-        </ScrollView>
+      </ScrollView>
     </View>
   );
 };

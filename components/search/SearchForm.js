@@ -76,7 +76,6 @@ const SearchForm = ({ navigation }) => {
     setOpenRadius(false);
   };
 
-
   return (
     <View style={styles.searchContainer}>
       <View style={{ marginTop: 50, padding: 20 }}>
@@ -227,12 +226,14 @@ const SearchForm = ({ navigation }) => {
           icon="map-marker"
           mode="text"
           textColor="#FF62AD"
-          onPress={() => navigation.navigate('Nearby', {
-            inputOne: inputOne,
-            inputTwo: inputTwo,
-            category: category,
-            radius: radius
-          })}
+          onPress={() =>
+            navigation.navigate("Nearby", {
+              inputOne: inputOne,
+              inputTwo: inputTwo,
+              category: category,
+              radius: radius,
+            })
+          }
         >
           SEARCH
         </Button>

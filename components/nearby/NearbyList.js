@@ -106,7 +106,6 @@ const NearbyList = ({
       );
     }
     setMarkers(markerPoints);
-
   };
 
   useEffect(() => {
